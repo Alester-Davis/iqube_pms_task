@@ -129,18 +129,6 @@ export async function protect(req,res,next){
         );
       }
     
-    //   if (currentUser.changedPasswordAt > decodedIat) {
-    //     res.status(401).json({
-    //         status: 'Failure',
-    //         error: 
-    //           'User recently changed password! Please log in again.'
-            
-    //     });
-    //     return next(
-    //       new Error('User recently changed password! Please log in again.')
-    //     );
-    //   }
-    
       req.user = currentUser;
       next();
 }
