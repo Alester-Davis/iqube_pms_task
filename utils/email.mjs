@@ -11,13 +11,13 @@ const transporter = nodemailer.createTransport({
 });
 
 
-export async function sendMail(inviteLink) {
+export async function sendMail(inviteLink,email) {
   console.log(inviteLink)
   const info = await transporter.sendMail({
-    from: '"example" <example@example.com>', 
-    to: "alesterkvp@gmail.com", 
-    subject: "Hello ✔",
-    text: "Hello world?",
+    from: 'Admin', 
+    to: `${email}`,
+    subject: "INVITION LINK (SIGNUP)",
+    text: "Admin want you you to join our team. Please use the link to sing up",
     html: `<b>${inviteLink}</b>`,
   });
 

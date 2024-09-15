@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 import bcrypt from "bcryptjs";
 import db from '../db.mjs';
+import { config } from 'dotenv';
 
 const roleEnum = {
     admin: 'admin',
@@ -12,10 +13,9 @@ const User = db.define('user', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    username: {
+    email: {
         type: DataTypes.STRING,
-        allowNull: false,
-        unique: true
+        primaryKey: true
     },
     password: {
         type: DataTypes.STRING,
@@ -29,7 +29,7 @@ const User = db.define('user', {
         allowNull: false,
         validate: {
             isIn: [Object.values(roleEnum)]
-        }
+        },
     }
 });
 
@@ -49,7 +49,7 @@ User.beforeSave(async (user, options) => {
 
 User.sync()
     .then(() => {
-        console.log('Database synchronized');
+        console.log('USER synchronized');
     })
     .catch((error) => {
         console.error('Error synchronizing database:', error);

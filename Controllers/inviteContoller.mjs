@@ -1,4 +1,5 @@
 import Invite from "../Models/inviteModel.mjs";
+import User from "../Models/userModel.mjs";
 import { sendMail } from "../utils/email.mjs";
 import crypto from 'crypto'
 
@@ -8,10 +9,19 @@ function randomNum(){
     const min = 10000;
     const max = 99999;
     const randomInteger = Math.floor(Math.random() * (max - min + 1)) + min;
-    return randomInteger
+    return resetToken
 }
 
 export async function generateLink(req,res,next){
+    const email = req.body.email;
+    console.log(email)
+    const usermail = await User.findOne({where:{email}})
+    if(usermail){
+        res.json({
+            status:"failure",
+            message:`${email} already exists`
+        })
+    }
     let inviteLink = randomNum()
     const check = await Invite.findAll({where:{inviteLink}})
     console.log(check)
@@ -21,13 +31,14 @@ export async function generateLink(req,res,next){
     }
     console.log(inviteLink)
     const num = await Invite.create({
-        inviteLink
+        inviteLink,
+        email
     })
-    console.log(num.inviteLink)
+    console.log(num.inviteLink+" "+num.usermail)
     const link = `${req.protocol}://${req.get(
         'host'
-      )}/api/v1/signup?inviteNo=${num.inviteLink}`;
-    await sendMail(link)
+      )}/signup?inviteNo=${num.inviteLink}`;
+    await sendMail(link,email)
     res.json({
         status:"success",
         message:"message sent successfully"

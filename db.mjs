@@ -1,12 +1,13 @@
-
 import { Sequelize } from 'sequelize';
 import { config } from 'dotenv';
 
 config({ path: './config.env' });
-const sequelize  = new Sequelize('iqube_pms_task','postgres',`${process.env.DATABASE_PASSWORD}`,{
+console.log(process.env.DATABASE_PASSWORD)
+const sequelize  = new Sequelize('iqube_pms_task_1','postgres',`${process.env.DATABASE_PASSWORD}`,{
     host:'localhost',
     dialect:'postgres'
 })
+
 
 sequelize
   .authenticate()
