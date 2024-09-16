@@ -11,7 +11,7 @@ config({ path: './config.env' });
 const app = express();
 app.use(cookieParser());
 app.use(json());
-app.use('/api/v1', authRoute);
+app.use('/', authRoute);
 app.use('/api/v1/admin',adminRoute)
 app.use('/api/v1/user',userRoute)
 
